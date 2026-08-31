@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from src.model import RNNClassifier
+from src.model import GRUClassifier
 from src.data import create_dataloaders
 from src.constants import MAX_VOCAB_SIZE, NUM_EPOCHS
 from tqdm import tqdm
@@ -82,7 +82,7 @@ def train(device, model, criterion, optimizer, train_loader, val_loader, schedul
 
 if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = RNNClassifier(vocab_size = MAX_VOCAB_SIZE, embed_dim = 128, hidden_dim= 128, output_dim= 1 ).to(device)
+    model = GRUClassifier(vocab_size = MAX_VOCAB_SIZE, embed_dim = 128, hidden_dim= 128, output_dim= 1 ).to(device)
     criterion = nn.BCEWithLogitsLoss()
     optimizer = optim.Adam(model.parameters(), lr = 0.001)
 
