@@ -60,7 +60,7 @@ def train(device, model, criterion, optimizer, train_loader, val_loader, schedul
         epoch_loss = running_loss / len(train_loader)
 
         current_lr = optimizer.param_groups[0]["lr"]
-        print(f"\nEpoch [{epoch +1}/{NUM_EPOCHS}] | Train Loss: {epoch_loss:.4f} | Val Loss: {val_loss:.4f} | Val Acc: {val_acc:.2f}% | LR: {current_lr:.6f}")
+        print(f"\nEpoch [{epoch +1}/{num_epochs}] | Train Loss: {epoch_loss:.4f} | Val Loss: {val_loss:.4f} | Val Acc: {val_acc:.2f}% | LR: {current_lr:.6f}")
 
         scheduler.step(val_loss)
 
