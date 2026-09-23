@@ -115,10 +115,10 @@ def prepare_data():
     y_train_tensor = torch.tensor(y_train, dtype=torch.float32)
     y_val_tensor   = torch.tensor(y_val, dtype=torch.float32)
     y_test_tensor  = torch.tensor(y_test, dtype=torch.float32)
-    return X_train_tensor, X_val_tensor, X_test_tensor, y_train_tensor, y_val_tensor, y_test_tensor
+    return vocab, X_train_tensor, X_val_tensor, X_test_tensor, y_train_tensor, y_val_tensor, y_test_tensor
 
 def create_dataloaders():
-    X_train_tensor, X_val_tensor, _, y_train_tensor, y_val_tensor, _ = prepare_data()
+    _, X_train_tensor, X_val_tensor, _, y_train_tensor, y_val_tensor, _ = prepare_data()
     train_dataset = TensorDataset(
         X_train_tensor, y_train_tensor
     )

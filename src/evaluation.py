@@ -9,9 +9,10 @@ from sklearn.metrics import (
 )
 from torch.utils.data import TensorDataset, DataLoader
 
-from src.model import RNNClassifier
+from src.model import GRUClassifier
 from src.data import prepare_data
-from src.constants import MAX_VOCAB_SIZE, EMBED_DIM, HIDDEN_DIM, BATCH_SIZE
+from src.constants import MAX_VOCAB_SIZE, EMBED_DIM, HIDDEN_DIM, BATCH_SIZE, MAX_SEQ_LEN
+from src.data import pad_sequence, text_to_id
 
 
 def load_checkpoint(model, checkpoint_path, device):
@@ -82,7 +83,7 @@ if __name__ == "__main__":
     )
 
     # Build model
-    model = RNNClassifier(
+    model = GRUClassifier(
         vocab_size=MAX_VOCAB_SIZE,
         embed_dim=EMBED_DIM,
         hidden_dim=HIDDEN_DIM,
@@ -109,6 +110,33 @@ if __name__ == "__main__":
     print(f"TN: {results['tn']}")
     print(f"FP: {results['fp']}")
     print(f"FN: {results['fn']}")
+
+def predict_sentiment(text, model, vocab, device):
+    model.eval()
+
+    # Tokenize
+    token_ids = text_to_id(text, vocab)
+
+    # Pad / truncate
+    token_ids = pad_sequence(token_ids, MAX_SEQ_LEN)
+
+    # Convert to tensor
+    input_tensor = torch.tensor(
+        [token_ids],
+        dtype=torch.long
+    ).to(device)
+
+    with torch.no_grad():
+        logits = model(input_tensor)
+
+        probability = torch.sigmoid(logits).item()
+
+    if probability >= 0.5:
+        sentiment = "positive"
+    else:
+        sentiment = "negative"
+
+    return sentiment, probability
 
 '''
 import matplotlib.pyplot as plt
