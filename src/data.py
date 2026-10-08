@@ -15,8 +15,8 @@ DATA_PATH = os.getenv(
 
 def load_imdb_data(path = DATA_PATH):
     df = pd.read_csv(path)
-    X_numpy = df["review"].values
-    y_numpy = df["sentiment"].values
+    X_numpy = df["review"].astype(str).to_numpy()
+    y_numpy = df["sentiment"].astype(str).to_numpy()
 
     X_train, X_temp, y_train, y_temp = train_test_split(
     X_numpy,
