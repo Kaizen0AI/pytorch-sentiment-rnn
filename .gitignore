@@ -32,8 +32,6 @@ anaconda_projects/
 Thumbs.db
 .DS_Store
 
-checkpoints/
-new_checkpoints/
 *.index
 *.data-*
 
